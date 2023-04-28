@@ -82,8 +82,10 @@
 <script src="/static/plugins/md-toc/md-toc.js"></script>
 <script type="text/javascript">
     Layers.bindIframe("[name='history']", "文档修改历史", "508px", "1000px");
-    $("[data-toggle='web-popover']").webuiPopover({animation: 'pop',autoHide:3000});
-    if (parent.layoutOpen) {
+    $("[data-toggle='web-popover']").webuiPopover({animation: 'pop', autoHide: 3000});
+    if (Common.isMobile()) {
+        parent.layoutClose()
+    } else {
         parent.layoutOpen();
     }
     $(function () {

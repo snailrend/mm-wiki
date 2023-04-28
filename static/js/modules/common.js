@@ -35,6 +35,7 @@ $(window).load(function() {
 });
 
 $(document).ready(function () {
+    let initClosed = Common.isMobile();
     sliderLayout = $('body').layout({
         west__size:                 230,
         west__spacing_open:		    4,
@@ -46,7 +47,8 @@ $(document).ready(function () {
         west__sliderTip:	        "打开侧栏",
         west__slideTrigger_open:	"click",
         west__slideTrigger_close:	"click",
-        center__maskContents:		 true
+        center__maskContents:       true,
+        west__initClosed:           initClosed
     });
 });
 
