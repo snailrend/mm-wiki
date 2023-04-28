@@ -1,3 +1,6 @@
+<!-- ⚠️生产环境请指定版本号，如 https://unpkg.com/vditor@x.x.x/dist... -->
+<link rel="stylesheet" href="https://unpkg.com/vditor@3.9.2/dist/index.css"/>
+<script src="https://unpkg.com/vditor@3.9.2/dist/index.min.js"></script>
 <div class="container-fluid">
     <div class="row">{{$pageContent := .page_content}}{{$document := .document}}{{$parentDocuments := .parent_documents}}
 
@@ -66,12 +69,11 @@
                     <div class="dir-preview-btn">
                         展开目录
                     </div>
-                    <div class="page-view-dir-toc" id="page-view-dir-toc">
+                    <div class="vditor page-view-dir-toc" id="page-view-dir-toc">
 
                     </div>
                 </div>
                 <div id="document_page_view" style="padding: 0 10px 10px 10px;">
-                    <textarea style="display:none;">{{$pageContent}}</textarea>
                 </div>
             </div>
         </div>
@@ -84,41 +86,23 @@
     if (parent.layoutOpen) {
         parent.layoutOpen();
     }
-    $(function() {
-        editormd.katexURL = {
-            js  : "/static/plugins/editor.md/lib/katex/katex.min",
-            css : "/static/plugins/editor.md/lib/katex/katex.min"
-        };
-        editormd.markdownToHTML("document_page_view", {
-            path : '/static/plugins/editor.md/lib/',
-            //htmlDecode      : true,       // 开启 HTML 标签解析，为了安全性，默认不开启
-            htmlDecode      : "style,script,iframe",  // you can filter tags decode
-            //toc             : false,
-            tocm            : true,    // Using [TOCM]
-            //tocContainer    : "#custom-toc-container", // 自定义 ToC 容器层
-            //gfm             : false,
-            //tocDropdown     : true,
-            //markdownSourceCode : true, // 是否保留 Markdown 源码，即是否删除保存源码的 Textarea 标签
-            emoji           : false,
-            taskList        : true,
-            tex             : true,  // 默认不解析
-            flowChart       : true,  // 默认不解析
-            sequenceDiagram : true,  // 默认不解析
-        });
-
-        // 将所有的 a 标签 target="_parent"
-        $("#document_page_view").find("a").each(function () {
-            var target = $(this).attr("target") || "_parent";
-            $(this).attr("target", target);
-        })
-
+    $(function () {
+        Vditor.preview(document.getElementById("document_page_view"),{{$pageContent}},
+            {
+                after() {
+                    // 将所有的 a 标签 target="_parent"
+                    $("#document_page_view").find("a").each(function () {
+                        var target = $(this).attr("target") || "_parent";
+                        $(this).attr("target", target);
+                    })
+                }
+            });
         // 生成目录树
-        new Toc("document_page_view", {
-            clazz: "page-view-dir-toc",
-            level: 7,
-            top: -2,
-            targetId: "page-view-dir-toc"
-        });
+        Vditor.md2html({{$pageContent}}).then(html =>{
+            const catalog = document.getElementById('page-view-dir-toc')
+            catalog.innerHTML = html
+            Vditor.outlineRender(catalog, catalog)
+        })
 
         // 按钮目录按钮永久显示, 滑动页面时, 固定显示
         window.onscroll = function(){
