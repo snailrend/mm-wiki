@@ -22,6 +22,8 @@ func (this *AuthorController) Index() {
 	// is open auth login
 	ssoOpen := models.ConfigModel.GetConfigValueByKey(models.ConfigKeyAuthLogin, "0")
 	this.Data["sso_open"] = ssoOpen
+	var from = this.Ctx.Request.URL.Query().Get("from")
+	this.Data["from"] = from
 	this.viewLayout("author/login", "author")
 }
 
@@ -83,7 +85,12 @@ func (this *AuthorController) Login() {
 	this.Ctx.Request.PostForm.Del("password")
 
 	this.InfoLog("登录成功")
-	this.jsonSuccess("登录成功！", nil, "/main/index")
+	fromPath := this.GetString("from")
+	if fromPath != "" {
+		this.jsonSuccess("登录成功！", nil, fromPath)
+	} else {
+		this.jsonSuccess("登录成功！", nil, "/main/index")
+	}
 }
 
 // auth login
@@ -178,7 +185,7 @@ func (this *AuthorController) AuthLogin() {
 	this.jsonSuccess("登录成功！", nil, "/main/index")
 }
 
-//logout
+// logout
 func (this *AuthorController) Logout() {
 	this.InfoLog("退出成功")
 	passport := beego.AppConfig.String("author::passport")

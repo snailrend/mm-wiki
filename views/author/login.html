@@ -1,3 +1,4 @@
+{{$from := .from}}
 <div class="login_box">
     <div class="login_l_img animated bounceInLeft">
         <span>快速构建团队协作与知识分享平台</span>
@@ -20,6 +21,7 @@
                 <section>
                     <form role="form" action="/author/login" method="post" onsubmit="return false">
                         <fieldset>
+                            <input name="from" type="hidden" id="from">
                             <div class="form-group">
                                 <div class="input-group">
                                     <span class="input-group-addon" id="username"><i class="glyphicon glyphicon-user"></i></span>
@@ -72,6 +74,7 @@
     if (self != top ) {
         parent.location.href = "/"
     }
+    document.getElementById('from').value = {{$from}}
     function KeyDown(element) {
         if (event.keyCode == 13) {
             event.returnValue = false;

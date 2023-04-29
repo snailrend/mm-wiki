@@ -45,7 +45,8 @@ func (this *TemplateController) Prepare() {
 		if this.IsAjax() {
 			this.JsonError("未登录或登录已失效！", nil, "/author/index")
 		} else {
-			this.Redirect("/author/index", 302)
+			var path = beego.Htmlquote(this.Ctx.Request.URL.String())
+			this.Redirect("/author/index?from="+path, 302)
 		}
 		this.StopRun()
 	}
