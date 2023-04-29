@@ -83,7 +83,7 @@
 <script type="text/javascript">
     Layers.bindIframe("[name='history']", "文档修改历史", "508px", "1000px");
     $("[data-toggle='web-popover']").webuiPopover({animation: 'pop', autoHide: 3000});
-    if (Common.isMobile()) {
+    if (Common.isMobile() && {{$document.type}} === "1") {
         parent.layoutClose()
     } else {
         parent.layoutOpen();

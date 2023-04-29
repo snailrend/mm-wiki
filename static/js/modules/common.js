@@ -35,21 +35,23 @@ $(window).load(function() {
 });
 
 $(document).ready(function () {
+    let size = Common.isMobile() ? window.innerWidth : 230;
     let initClosed = Common.isMobile();
-    sliderLayout = $('body').layout({
-        west__size:                 230,
-        west__spacing_open:		    4,
-        west__spacing_closed:		4,
-        west__togglerTip_closed:	"打开侧栏",
-        west__togglerTip_open:	    "关闭侧栏",
-        west__resizerTip:	        "重置大小",
-        west__resizerCursor :       "col-resize",
-        west__sliderTip:	        "打开侧栏",
-        west__slideTrigger_open:	"click",
-        west__slideTrigger_close:	"click",
-        center__maskContents:       true,
-        west__initClosed:           initClosed
-    });
+    sliderLayout = $('body')
+      .layout({
+                  west__size: size,
+                  west__spacing_open: 4,
+                  west__spacing_closed: 4,
+                  west__togglerTip_closed: "打开侧栏",
+                  west__togglerTip_open: "关闭侧栏",
+                  west__resizerTip: "重置大小",
+                  west__resizerCursor: "col-resize",
+                  west__sliderTip: "打开侧栏",
+                  west__slideTrigger_open: "click",
+                  west__slideTrigger_close: "click",
+                  center__maskContents: true,
+                  west__initClosed: initClosed
+              });
 });
 
 function layoutOpen() {
